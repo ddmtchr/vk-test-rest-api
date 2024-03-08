@@ -1,11 +1,13 @@
 package com.ddmtchr.vktestrestapi.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
-import reactor.core.publisher.Mono;
 
 @Service
 public class ProxyService {
@@ -19,7 +21,12 @@ public class ProxyService {
                 .build();
     }
 
+    @Cacheable("posts")
     public String fetchPosts() {
         return webClient.get().uri("/posts").retrieve().bodyToMono(String.class).block();
     }
+
+    @Scheduled(fixedRateString = "${caching.TTL}")
+    @CacheEvict(allEntries = true, value = {"posts", "users", "albums"})
+    public void emptyCache() {}
 }

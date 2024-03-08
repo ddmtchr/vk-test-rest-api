@@ -19,4 +19,6 @@ public class PostController {
     public ResponseEntity<?> getPosts() {
         return ResponseEntity.ok(proxyService.fetchPosts());
     }
+
+
 }
