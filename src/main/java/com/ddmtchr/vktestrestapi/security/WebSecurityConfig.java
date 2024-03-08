@@ -1,5 +1,6 @@
 package com.ddmtchr.vktestrestapi.security;
 
+import com.ddmtchr.vktestrestapi.security.jwt.AccessDeniedHandlerJwt;
 import com.ddmtchr.vktestrestapi.security.jwt.AuthenticationEntryPointJwt;
 import com.ddmtchr.vktestrestapi.security.jwt.JwtAuthenticationFilter;
 import com.ddmtchr.vktestrestapi.security.services.UserDetailsServiceImpl;
@@ -28,6 +29,9 @@ public class WebSecurityConfig {
 
     @Autowired
     private AuthenticationEntryPointJwt unauthorizedHandler;
+
+    @Autowired
+    private AccessDeniedHandlerJwt accessDeniedHandlerJwt;
 
     @Bean
     public JwtAuthenticationFilter authenticationJwtTokenFilter() {
@@ -58,6 +62,7 @@ public class WebSecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.csrf(AbstractHttpConfigurer::disable)
                 .exceptionHandling(exception -> exception.authenticationEntryPoint(unauthorizedHandler))
+                .exceptionHandling(exception -> exception.accessDeniedHandler(accessDeniedHandlerJwt))
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth ->
                         auth.requestMatchers("/posts/**").authenticated() //todo api
