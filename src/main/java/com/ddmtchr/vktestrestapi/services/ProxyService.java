@@ -26,6 +26,16 @@ public class ProxyService {
         return webClient.get().uri("/posts").retrieve().bodyToMono(String.class).block();
     }
 
+    @Cacheable("users")
+    public String fetchUsers() {
+        return webClient.get().uri("/users").retrieve().bodyToMono(String.class).block();
+    }
+
+    @Cacheable("albums")
+    public String fetchAlbums() {
+        return webClient.get().uri("/albums").retrieve().bodyToMono(String.class).block();
+    }
+
     @Scheduled(fixedRateString = "${caching.TTL}")
     @CacheEvict(allEntries = true, value = {"posts", "users", "albums"})
     public void emptyCache() {}
