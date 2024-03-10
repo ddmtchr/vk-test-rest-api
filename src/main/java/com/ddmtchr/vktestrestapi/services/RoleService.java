@@ -1,8 +1,8 @@
 package com.ddmtchr.vktestrestapi.services;
 
-import com.ddmtchr.vktestrestapi.model.Role;
+import com.ddmtchr.vktestrestapi.database.entities.Role;
+import com.ddmtchr.vktestrestapi.database.repository.RoleRepository;
 import com.ddmtchr.vktestrestapi.model.Roles;
-import com.ddmtchr.vktestrestapi.repository.RoleRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

@@ -1,6 +1,6 @@
-package com.ddmtchr.vktestrestapi.repository;
+package com.ddmtchr.vktestrestapi.database.repository;
 
-import com.ddmtchr.vktestrestapi.model.User;
+import com.ddmtchr.vktestrestapi.database.entities.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

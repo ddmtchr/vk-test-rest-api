@@ -1,4 +1,4 @@
-package com.ddmtchr.vktestrestapi.model;
+package com.ddmtchr.vktestrestapi.database.entities;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

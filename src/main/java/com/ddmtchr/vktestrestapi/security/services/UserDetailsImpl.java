@@ -1,6 +1,6 @@
 package com.ddmtchr.vktestrestapi.security.services;
 
-import com.ddmtchr.vktestrestapi.model.User;
+import com.ddmtchr.vktestrestapi.database.entities.User;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;

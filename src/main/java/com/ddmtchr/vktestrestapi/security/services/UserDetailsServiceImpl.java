@@ -1,7 +1,7 @@
 package com.ddmtchr.vktestrestapi.security.services;
 
-import com.ddmtchr.vktestrestapi.model.User;
-import com.ddmtchr.vktestrestapi.repository.UserRepository;
+import com.ddmtchr.vktestrestapi.database.entities.User;
+import com.ddmtchr.vktestrestapi.database.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

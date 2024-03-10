@@ -26,9 +26,22 @@ public class ProxyService {
         return webClient.get().uri("/posts").retrieve().bodyToMono(String.class).block();
     }
 
+    public String fetchPostById(Long id) {
+        return webClient.get().uri(uriBuilder -> uriBuilder
+                .path("/posts/{id}")
+                .build(id)).retrieve().bodyToMono(String.class).block();
+    }
+
     @Cacheable("users")
     public String fetchUsers() {
         return webClient.get().uri("/users").retrieve().bodyToMono(String.class).block();
+    }
+
+    public String fetchUserById(Long id) {
+        return webClient.get().uri(uriBuilder -> uriBuilder
+                        .path("/users/{id}")
+                        .build(id)).retrieve()
+                .bodyToMono(String.class).block();
     }
 
     @Cacheable("albums")
@@ -36,7 +49,14 @@ public class ProxyService {
         return webClient.get().uri("/albums").retrieve().bodyToMono(String.class).block();
     }
 
+    public String fetchAlbumById(Long id) {
+        return webClient.get().uri(uriBuilder -> uriBuilder
+                .path("/albums/{id}")
+                .build(id)).retrieve().bodyToMono(String.class).block();
+    }
+
     @Scheduled(fixedRateString = "${caching.TTL}")
     @CacheEvict(allEntries = true, value = {"posts", "users", "albums"})
-    public void emptyCache() {}
+    public void emptyCache() {
+    }
 }

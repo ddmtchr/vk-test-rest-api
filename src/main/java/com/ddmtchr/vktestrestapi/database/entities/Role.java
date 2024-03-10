@@ -1,5 +1,6 @@
-package com.ddmtchr.vktestrestapi.model;
+package com.ddmtchr.vktestrestapi.database.entities;
 
+import com.ddmtchr.vktestrestapi.model.Roles;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;

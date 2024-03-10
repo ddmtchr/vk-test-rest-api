@@ -1,8 +1,8 @@
 package com.ddmtchr.vktestrestapi.controllers;
 
-import com.ddmtchr.vktestrestapi.model.Role;
+import com.ddmtchr.vktestrestapi.database.entities.Role;
+import com.ddmtchr.vktestrestapi.database.entities.User;
 import com.ddmtchr.vktestrestapi.model.Roles;
-import com.ddmtchr.vktestrestapi.model.User;
 import com.ddmtchr.vktestrestapi.payload.JwtResponse;
 import com.ddmtchr.vktestrestapi.payload.LoginRequest;
 import com.ddmtchr.vktestrestapi.payload.RegisterRequest;
