@@ -16,31 +16,31 @@ public class AlbumsController {
     private final ProxyAlbumsService proxyService;
 
     @GetMapping
-    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_ALBUMS')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_ALBUMS', 'ROLE_ALBUMS_VIEWER')")
     public ResponseEntity<?> getAlbums() {
         return ResponseEntity.ok(proxyService.fetchAlbums());
     }
 
     @GetMapping("/{id}")
-    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_ALBUMS')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_ALBUMS', 'ROLE_ALBUMS_VIEWER')")
     public ResponseEntity<?> getAlbumById(@PathVariable Long id) {
         return ResponseEntity.ok(proxyService.fetchAlbumById(id));
     }
 
     @PostMapping
-    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_ALBUMS')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_ALBUMS', 'ROLE_ALBUMS_EDITOR')")
     public ResponseEntity<?> addAlbum(@RequestBody @Valid AlbumDTO album) {
         return new ResponseEntity<>(proxyService.addAlbum(album), HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
-    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_ALBUMS')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_ALBUMS', 'ROLE_ALBUMS_EDITOR')")
     public ResponseEntity<?> updateAlbum(@RequestBody @Valid AlbumDTO album, @PathVariable Long id) {
         return ResponseEntity.ok(proxyService.updateAlbum(album, id));
     }
 
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_ALBUMS')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_ALBUMS', 'ROLE_ALBUMS_EDITOR')")
     public ResponseEntity<?> deleteAlbum(@PathVariable Long id) {
         return ResponseEntity.ok(proxyService.deleteAlbumById(id));
     }

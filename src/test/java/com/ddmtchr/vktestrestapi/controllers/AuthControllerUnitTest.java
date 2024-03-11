@@ -32,7 +32,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-class AuthControllerTest {
+class AuthControllerUnitTest {
     @Mock
     private UserDetailsServiceImpl userService;
     @Mock

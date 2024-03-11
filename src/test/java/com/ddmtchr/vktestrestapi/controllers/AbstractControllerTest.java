@@ -1,6 +1,5 @@
 package com.ddmtchr.vktestrestapi.controllers;
 
-import com.ddmtchr.vktestrestapi.VkTestRestApiApplication;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.extension.ExtendWith;

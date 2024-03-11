@@ -16,31 +16,31 @@ public class PostsController {
     private final ProxyPostsService proxyService;
 
     @GetMapping
-    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_POSTS')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_POSTS', 'ROLE_POSTS_VIEWER')")
     public ResponseEntity<?> getPosts() {
         return ResponseEntity.ok(proxyService.fetchPosts());
     }
 
     @GetMapping("/{id}")
-    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_POSTS')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_POSTS', 'ROLE_POSTS_VIEWER')")
     public ResponseEntity<?> getPostById(@PathVariable Long id) {
         return ResponseEntity.ok(proxyService.fetchPostById(id));
     }
 
     @PostMapping
-    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_POSTS')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_POSTS', 'ROLE_POSTS_EDITOR')")
     public ResponseEntity<?> addPost(@RequestBody @Valid PostDTO post) {
         return new ResponseEntity<>(proxyService.addPost(post), HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
-    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_POSTS')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_POSTS', 'ROLE_POSTS_EDITOR')")
     public ResponseEntity<?> updatePost(@RequestBody @Valid PostDTO post, @PathVariable Long id) {
         return ResponseEntity.ok(proxyService.updatePost(post, id));
     }
 
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_POSTS')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_POSTS', 'ROLE_POSTS_EDITOR')")
     public ResponseEntity<?> deletePost(@PathVariable Long id) {
         return ResponseEntity.ok(proxyService.deletePostById(id));
     }
