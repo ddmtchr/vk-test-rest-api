@@ -30,7 +30,7 @@ public class AlbumsController {
     @PostMapping
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_ALBUMS')")
     public ResponseEntity<?> addAlbum(@RequestBody @Valid AlbumDTO album) {
-        return new ResponseEntity<>(proxyService.addAlbum(album), HttpStatus.CREATED); //todo handle
+        return new ResponseEntity<>(proxyService.addAlbum(album), HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")

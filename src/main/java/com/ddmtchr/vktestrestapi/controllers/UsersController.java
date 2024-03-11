@@ -30,7 +30,7 @@ public class UsersController {
     @PostMapping
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_USERS')")
     public ResponseEntity<?> addUser(@RequestBody @Valid UserDTO user) {
-        return new ResponseEntity<>(proxyService.addUser(user), HttpStatus.CREATED); //todo handle
+        return new ResponseEntity<>(proxyService.addUser(user), HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")

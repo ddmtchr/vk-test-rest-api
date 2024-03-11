@@ -27,7 +27,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableAspectJAutoProxy
 public class WebSecurityConfig {
     @Autowired
-    private UserDetailsServiceImpl userDetailsService; //todo service
+    private UserDetailsServiceImpl userDetailsService;
 
     @Autowired
     private AuthenticationEntryPointJwt unauthorizedHandler;
@@ -68,7 +68,9 @@ public class WebSecurityConfig {
                         .accessDeniedHandler(accessDeniedHandlerJwt))
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth ->
-                        auth.requestMatchers("/posts/**").authenticated() //todo api
+                        auth.requestMatchers("/posts/**").authenticated()
+                                .requestMatchers("/users/**").authenticated()
+                                .requestMatchers("/albums/**").authenticated()
                                 .requestMatchers("/auth/**").permitAll()
                                 .anyRequest().authenticated()
                 );

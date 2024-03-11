@@ -30,7 +30,7 @@ public class PostsController {
     @PostMapping
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_POSTS')")
     public ResponseEntity<?> addPost(@RequestBody @Valid PostDTO post) {
-        return new ResponseEntity<>(proxyService.addPost(post), HttpStatus.CREATED); //todo handle
+        return new ResponseEntity<>(proxyService.addPost(post), HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
