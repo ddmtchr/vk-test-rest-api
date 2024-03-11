@@ -15,6 +15,15 @@ public class RoleService {
 
     public Role findRoleByName(Roles name) {
         Optional<Role> role = roleRepository.findByName(name);
-        return role.orElse(null);
+        if (role.isEmpty()) {
+            Role newRole = new Role();
+            newRole.setName(name);
+            return addRole(newRole);
+        }
+        return role.get();
+    }
+
+    public Role addRole(Role role) {
+        return roleRepository.save(role);
     }
 }

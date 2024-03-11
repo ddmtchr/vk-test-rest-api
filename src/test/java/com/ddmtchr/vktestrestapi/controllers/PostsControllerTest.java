@@ -2,24 +2,18 @@ package com.ddmtchr.vktestrestapi.controllers;
 
 import com.ddmtchr.vktestrestapi.model.PostDTO;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-@SpringBootTest
-@AutoConfigureMockMvc
-@ExtendWith(SpringExtension.class)
 @WithMockUser(roles = "ADMIN")
 class PostsControllerTest extends AbstractControllerTest {
     @Autowired
@@ -94,6 +88,8 @@ class PostsControllerTest extends AbstractControllerTest {
         assertEquals(42L, content.getUserId());
         assertEquals("Test title", content.getTitle());
         assertEquals("Test body", content.getBody());
+
+        mockMvc.perform(MockMvcRequestBuilders.delete("/posts/101")).andExpect(MockMvcResultMatchers.status().isOk());
     }
 
     @Test

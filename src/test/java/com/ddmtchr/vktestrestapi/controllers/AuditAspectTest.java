@@ -4,25 +4,16 @@ import com.ddmtchr.vktestrestapi.database.entities.AuditLog;
 import com.ddmtchr.vktestrestapi.database.repository.AuditRepository;
 import com.ddmtchr.vktestrestapi.model.PostDTO;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithAnonymousUser;
 import org.springframework.security.test.context.support.WithMockUser;
-import org.springframework.test.context.DynamicPropertyRegistry;
-import org.springframework.test.context.DynamicPropertySource;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@SpringBootTest
-@AutoConfigureMockMvc
-@ExtendWith(SpringExtension.class)
 class AuditAspectTest extends AbstractControllerTest {
     @Autowired
     private MockMvc mockMvc;
@@ -94,13 +85,13 @@ class AuditAspectTest extends AbstractControllerTest {
     @Test
     @WithMockUser(roles = "POSTS")
     void testAudit_NotFoundPost_ReturnsAuditLog() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.get("/posts/101"))
+        mockMvc.perform(MockMvcRequestBuilders.get("/posts/1000"))
                 .andExpect(MockMvcResultMatchers.status().isNotFound());
         AuditLog log = auditRepository.findFirstByOrderByTimestampDesc();
 
         assertTrue(log.getHasAccess());
         assertEquals("user", log.getUsername());
-        assertEquals("/posts/101", log.getRequestUrl());
+        assertEquals("/posts/1000", log.getRequestUrl());
         assertEquals("GET", log.getRequestMethod());
         assertEquals(404, log.getResponseStatus());
     }
