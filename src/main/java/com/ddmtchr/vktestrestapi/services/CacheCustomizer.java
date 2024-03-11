@@ -8,6 +8,7 @@ import java.util.Arrays;
 public class CacheCustomizer implements CacheManagerCustomizer<ConcurrentMapCacheManager> {
     @Override
     public void customize(ConcurrentMapCacheManager cacheManager) {
-        cacheManager.setCacheNames(Arrays.asList("posts", "users", "albums"));
+        cacheManager.setCacheNames(Arrays.asList("posts", "users", "albums",
+                "postsCollection", "usersCollection", "albumsCollection"));
     }
 }

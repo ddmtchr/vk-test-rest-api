@@ -1,8 +1,8 @@
 package com.ddmtchr.vktestrestapi.controllers;
 
 import com.ddmtchr.vktestrestapi.database.entities.Role;
-import com.ddmtchr.vktestrestapi.model.Roles;
 import com.ddmtchr.vktestrestapi.database.entities.User;
+import com.ddmtchr.vktestrestapi.model.Roles;
 import com.ddmtchr.vktestrestapi.payload.JwtResponse;
 import com.ddmtchr.vktestrestapi.payload.LoginRequest;
 import com.ddmtchr.vktestrestapi.payload.RegisterRequest;
@@ -47,7 +47,7 @@ class AuthControllerTest {
     private AuthController authController;
 
     @Test
-    public void testAuthenticateUser_ValidCredentials_ReturnsJwtResponse() {
+    void testAuthenticateUser_ValidCredentials_ReturnsJwtResponse() {
         LoginRequest request = new LoginRequest("username", "password");
         UserDetails userDetails = new UserDetailsImpl(1L, "username", "password", Collections.emptyList());
         Authentication authentication = new UsernamePasswordAuthenticationToken(userDetails, null);
@@ -69,7 +69,7 @@ class AuthControllerTest {
     }
 
     @Test
-    public void testAuthenticateUser_InvalidCredentials_ReturnsUnauthorized() {
+    void testAuthenticateUser_InvalidCredentials_ReturnsUnauthorized() {
         LoginRequest request = new LoginRequest("username", "password");
 
         when(authenticationManager.authenticate(any(UsernamePasswordAuthenticationToken.class)))
@@ -87,7 +87,7 @@ class AuthControllerTest {
     }
 
     @Test
-    public void testRegisterUser_ValidRequest_ReturnsCreatedWithDefaultRole() {
+    void testRegisterUser_ValidRequest_ReturnsCreatedWithDefaultRole() {
         RegisterRequest request = new RegisterRequest("username", "password", null);
 
         when(userService.existsByUsername("username")).thenReturn(false);
@@ -103,7 +103,7 @@ class AuthControllerTest {
     }
 
     @Test
-    public void testRegisterUser_ExistingUsername_ReturnsBadRequest() {
+    void testRegisterUser_ExistingUsername_ReturnsBadRequest() {
         RegisterRequest request = new RegisterRequest("username", "password", null);
 
         when(userService.existsByUsername("username")).thenReturn(true);
@@ -116,7 +116,7 @@ class AuthControllerTest {
     }
 
     @Test
-    public void testRegisterUser_CustomRoles_ReturnsCreatedWithCustomRoles() {
+    void testRegisterUser_CustomRoles_ReturnsCreatedWithCustomRoles() {
         RegisterRequest request = new RegisterRequest("username", "password", Set.of("ADMIN", "USERS", "POSTS", "ALBUMS"));
 
         when(roleService.findRoleByName(Roles.ROLE_ADMIN)).thenReturn(new Role(1L, Roles.ROLE_ADMIN));

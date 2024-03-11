@@ -13,6 +13,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 public class CacheConfig {
     @Bean
     public CacheManager cacheManager() {
-        return new ConcurrentMapCacheManager("posts", "users", "albums");
+        return new ConcurrentMapCacheManager("posts", "users", "albums",
+                "postsCollection", "usersCollection", "albumsCollection");
     }
 }

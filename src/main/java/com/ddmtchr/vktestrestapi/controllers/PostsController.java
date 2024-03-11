@@ -1,20 +1,19 @@
 package com.ddmtchr.vktestrestapi.controllers;
 
-import com.ddmtchr.vktestrestapi.services.ProxyService;
+import com.ddmtchr.vktestrestapi.model.PostDTO;
+import com.ddmtchr.vktestrestapi.services.ProxyPostsService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.reactive.function.client.WebClientResponseException;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/posts")
 public class PostsController {
-    private final ProxyService proxyService;
+    private final ProxyPostsService proxyService;
 
     @GetMapping
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_POSTS')")
@@ -25,11 +24,24 @@ public class PostsController {
     @GetMapping("/{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_POSTS')")
     public ResponseEntity<?> getPostById(@PathVariable Long id) {
-        try {
-            return ResponseEntity.ok(proxyService.fetchPostById(id));
-        } catch (WebClientResponseException.NotFound e) {
-            return ResponseEntity.notFound().build();
-        }
+        return ResponseEntity.ok(proxyService.fetchPostById(id));
     }
 
+    @PostMapping
+    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_POSTS')")
+    public ResponseEntity<?> addPost(@RequestBody @Valid PostDTO post) {
+        return new ResponseEntity<>(proxyService.addPost(post), HttpStatus.CREATED); //todo handle
+    }
+
+    @PutMapping("/{id}")
+    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_POSTS')")
+    public ResponseEntity<?> updatePost(@RequestBody @Valid PostDTO post, @PathVariable Long id) {
+        return ResponseEntity.ok(proxyService.updatePost(post, id));
+    }
+
+    @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_POSTS')")
+    public ResponseEntity<?> deletePost(@PathVariable Long id) {
+        return ResponseEntity.ok(proxyService.deletePostById(id));
+    }
 }
