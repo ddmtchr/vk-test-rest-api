@@ -18,7 +18,6 @@ import java.util.List;
 @Service
 public class ProxyUsersService {
     private final WebClient webClient;
-    private static final Logger logger = LoggerFactory.getLogger(ProxyUsersService.class);
 
     @Autowired
     public ProxyUsersService(WebClient.Builder webClientBuilder) {
@@ -30,7 +29,6 @@ public class ProxyUsersService {
 
     @Cacheable("usersCollection")
     public List<UserDTO> fetchUsers() {
-        logger.info("request to api");
         return webClient.get().uri("/users").retrieve()
                 .bodyToMono(new ParameterizedTypeReference<List<UserDTO>>() {
                 }).block();
@@ -38,21 +36,18 @@ public class ProxyUsersService {
 
     @Cacheable(value = "users", key = "#id")
     public UserDTO fetchUserById(Long id) {
-        logger.info("request to api");
         return webClient.get().uri("/users/{id}", id).retrieve()
                 .bodyToMono(UserDTO.class).block();
     }
 
     @CachePut(value = "users", key = "#result.id")
     public UserDTO addUser(UserDTO user) {
-        logger.info("request to api");
         return webClient.post().uri("/users").bodyValue(user).retrieve()
                 .bodyToMono(UserDTO.class).block();
     }
 
     @CachePut(value = "users", key = "#id")
     public UserDTO updateUser(UserDTO user, Long id) {
-        logger.info("request to api");
         return webClient.put().uri("/users/{id}", id)
                 .bodyValue(user)
                 .retrieve()
@@ -62,7 +57,6 @@ public class ProxyUsersService {
 
     @CacheEvict(value = "users", key = "#id")
     public Void deleteUserById(Long id) {
-        logger.info("request to delete user with id: {}", id);
         return webClient.delete().uri("/users/{id}", id)
                 .retrieve()
                 .bodyToMono(Void.class)

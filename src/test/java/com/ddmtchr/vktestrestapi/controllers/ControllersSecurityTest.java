@@ -14,7 +14,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 @SpringBootTest
 @AutoConfigureMockMvc
 @ExtendWith(SpringExtension.class)
-class ControllersSecurityTest {
+class ControllersSecurityTest extends AbstractControllerTest {
     @Autowired
     private MockMvc mockMvc;
 

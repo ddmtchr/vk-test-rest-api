@@ -9,7 +9,7 @@ import com.ddmtchr.vktestrestapi.payload.RegisterRequest;
 import com.ddmtchr.vktestrestapi.security.jwt.JwtUtils;
 import com.ddmtchr.vktestrestapi.security.services.UserDetailsImpl;
 import com.ddmtchr.vktestrestapi.security.services.UserDetailsServiceImpl;
-import com.ddmtchr.vktestrestapi.services.RoleService;
+import com.ddmtchr.vktestrestapi.security.services.RoleService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

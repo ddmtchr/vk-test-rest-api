@@ -1,4 +1,4 @@
-package com.ddmtchr.vktestrestapi.services;
+package com.ddmtchr.vktestrestapi.security.services;
 
 import com.ddmtchr.vktestrestapi.database.entities.Role;
 import com.ddmtchr.vktestrestapi.database.repository.RoleRepository;

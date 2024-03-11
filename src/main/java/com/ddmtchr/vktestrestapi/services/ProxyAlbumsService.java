@@ -18,7 +18,6 @@ import java.util.List;
 @Service
 public class ProxyAlbumsService {
     private final WebClient webClient;
-    private static final Logger logger = LoggerFactory.getLogger(ProxyAlbumsService.class);
 
     @Autowired
     public ProxyAlbumsService(WebClient.Builder webClientBuilder) {
@@ -30,7 +29,6 @@ public class ProxyAlbumsService {
 
     @Cacheable("albumsCollection")
     public List<AlbumDTO> fetchAlbums() {
-        logger.info("request to api");
         return webClient.get().uri("/albums").retrieve()
                 .bodyToMono(new ParameterizedTypeReference<List<AlbumDTO>>() {
                 }).block();
@@ -38,21 +36,18 @@ public class ProxyAlbumsService {
 
     @Cacheable(value = "albums", key = "#id")
     public AlbumDTO fetchAlbumById(Long id) {
-        logger.info("request to api");
         return webClient.get().uri("/albums/{id}", id).retrieve()
                 .bodyToMono(AlbumDTO.class).block();
     }
 
     @CachePut(value = "albums", key = "#result.id")
     public AlbumDTO addAlbum(AlbumDTO album) {
-        logger.info("request to api");
         return webClient.post().uri("/albums").bodyValue(album).retrieve()
                 .bodyToMono(AlbumDTO.class).block();
     }
 
     @CachePut(value = "albums", key = "#id")
     public AlbumDTO updateAlbum(AlbumDTO album, Long id) {
-        logger.info("request to api");
         return webClient.put().uri("/albums/{id}", id)
                 .bodyValue(album)
                 .retrieve()
@@ -62,7 +57,6 @@ public class ProxyAlbumsService {
 
     @CacheEvict(value = "albums", key = "#id")
     public Void deleteAlbumById(Long id) {
-        logger.info("request to delete album with id: {}", id);
         return webClient.delete().uri("/albums/{id}", id)
                 .retrieve()
                 .bodyToMono(Void.class)
