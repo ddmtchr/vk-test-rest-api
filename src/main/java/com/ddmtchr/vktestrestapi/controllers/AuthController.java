@@ -31,7 +31,7 @@ import java.util.Set;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/auth")
+@RequestMapping("/api/auth")
 public class AuthController {
     private final UserDetailsServiceImpl userService;
     private final RoleService roleService;
@@ -64,24 +64,10 @@ public class AuthController {
             roles.add(postsRole);
         } else {
             rolesString.forEach((role) -> {
-                switch (role) {
-                    case "ADMIN":
-                        Role adminRole = roleService.findRoleByName(Roles.ROLE_ADMIN);
-                        roles.add(adminRole);
-                        break;
-                    case "USERS":
-                        Role usersRole = roleService.findRoleByName(Roles.ROLE_USERS);
-                        roles.add(usersRole);
-                        break;
-                    case "ALBUMS":
-                        Role albumsRole = roleService.findRoleByName(Roles.ROLE_ALBUMS);
-                        roles.add(albumsRole);
-                        break;
-                    case "POSTS":
-                    default:
-                        Role postsRole = roleService.findRoleByName(Roles.ROLE_POSTS); // by default
-                        roles.add(postsRole);
-                }
+                String withPrefix = "ROLE_" + role;
+                Roles eRole = Roles.valueOf(withPrefix);
+                Role userRole = roleService.findRoleByName(eRole);
+                roles.add(userRole);
             });
         }
         user.setRoles(roles);

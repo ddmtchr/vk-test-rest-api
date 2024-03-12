@@ -20,7 +20,7 @@ class UsersControllerTest extends AbstractControllerTest {
 
     @Test
     void getUsers_ReturnsList() throws Exception {
-        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get("/users")).andReturn();
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get("/api/users")).andReturn();
 
         assertEquals(HttpStatus.OK.value(), result.getResponse().getStatus());
         String content = result.getResponse().getContentAsString();
@@ -30,7 +30,7 @@ class UsersControllerTest extends AbstractControllerTest {
 
     @Test
     void getUserById_ReturnsUser() throws Exception {
-        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get("/users/3")).andReturn();
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get("/api/users/3")).andReturn();
 
         assertEquals(HttpStatus.OK.value(), result.getResponse().getStatus());
         String content = result.getResponse().getContentAsString();
@@ -46,7 +46,7 @@ class UsersControllerTest extends AbstractControllerTest {
         user.setEmail("Test email");
 
         String inputJson = mapToJson(user);
-        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post("/users")
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post("/api/users")
                 .contentType(MediaType.APPLICATION_JSON_VALUE).content(inputJson)).andReturn();
 
         assertEquals(HttpStatus.CREATED.value(), result.getResponse().getStatus());
@@ -63,7 +63,7 @@ class UsersControllerTest extends AbstractControllerTest {
         user.setEmail("Test email");
 
         String inputJson = mapToJson(user);
-        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.put("/users/3")
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.put("/api/users/3")
                 .contentType(MediaType.APPLICATION_JSON_VALUE).content(inputJson)).andReturn();
 
         assertEquals(HttpStatus.OK.value(), result.getResponse().getStatus());
@@ -74,7 +74,7 @@ class UsersControllerTest extends AbstractControllerTest {
 
     @Test
     void deleteUser_ReturnsOk() throws Exception {
-        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.delete("/users/3"))
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.delete("/api/users/3"))
                 .andReturn();
 
         assertEquals(HttpStatus.OK.value(), result.getResponse().getStatus());

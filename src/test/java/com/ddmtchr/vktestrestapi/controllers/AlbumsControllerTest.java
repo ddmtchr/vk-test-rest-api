@@ -20,7 +20,7 @@ class AlbumsControllerTest extends AbstractControllerTest {
 
     @Test
     void getAlbums_ReturnsList() throws Exception {
-        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get("/albums")).andReturn();
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get("/api/albums")).andReturn();
 
         assertEquals(HttpStatus.OK.value(), result.getResponse().getStatus());
         String content = result.getResponse().getContentAsString();
@@ -30,7 +30,7 @@ class AlbumsControllerTest extends AbstractControllerTest {
 
     @Test
     void getAlbumById_ReturnsAlbum() throws Exception {
-        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get("/albums/3")).andReturn();
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get("/api/albums/3")).andReturn();
 
         assertEquals(HttpStatus.OK.value(), result.getResponse().getStatus());
         String content = result.getResponse().getContentAsString();
@@ -45,7 +45,7 @@ class AlbumsControllerTest extends AbstractControllerTest {
         album.setTitle("Test title");
 
         String inputJson = mapToJson(album);
-        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post("/albums")
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post("/api/albums")
                 .contentType(MediaType.APPLICATION_JSON_VALUE).content(inputJson)).andReturn();
 
         assertEquals(HttpStatus.CREATED.value(), result.getResponse().getStatus());
@@ -61,7 +61,7 @@ class AlbumsControllerTest extends AbstractControllerTest {
         album.setTitle("Test title title");
 
         String inputJson = mapToJson(album);
-        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.put("/albums/3")
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.put("/api/albums/3")
                 .contentType(MediaType.APPLICATION_JSON_VALUE).content(inputJson)).andReturn();
 
         assertEquals(HttpStatus.OK.value(), result.getResponse().getStatus());
@@ -72,7 +72,7 @@ class AlbumsControllerTest extends AbstractControllerTest {
 
     @Test
     void deleteAlbum_ReturnsOk() throws Exception {
-        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.delete("/albums/3"))
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.delete("/api/albums/3"))
                 .andReturn();
 
         assertEquals(HttpStatus.OK.value(), result.getResponse().getStatus());

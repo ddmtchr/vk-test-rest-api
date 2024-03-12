@@ -6,41 +6,35 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/users")
+@RequestMapping("/api/users")
 public class UsersController {
     private final ProxyUsersService proxyService;
 
     @GetMapping
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USERS', 'ROLE_USERS_VIEWER')")
     public ResponseEntity<?> getUsers() {
         return ResponseEntity.ok(proxyService.fetchUsers());
     }
 
     @GetMapping("/{id}")
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USERS', 'ROLE_USERS_VIEWER')")
     public ResponseEntity<?> getUserById(@PathVariable Long id) {
         return ResponseEntity.ok(proxyService.fetchUserById(id));
     }
 
     @PostMapping
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USERS', 'ROLE_USERS_EDITOR')")
     public ResponseEntity<?> addUser(@RequestBody @Valid UserDTO user) {
         return new ResponseEntity<>(proxyService.addUser(user), HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USERS', 'ROLE_USERS_EDITOR')")
     public ResponseEntity<?> updateUser(@RequestBody @Valid UserDTO user, @PathVariable Long id) {
         return ResponseEntity.ok(proxyService.updateUser(user, id));
     }
 
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USERS', 'ROLE_USERS_EDITOR')")
     public ResponseEntity<?> deleteUser(@PathVariable Long id) {
         return ResponseEntity.ok(proxyService.deleteUserById(id));
     }

@@ -21,7 +21,7 @@ class PostsControllerTest extends AbstractControllerTest {
 
     @Test
     void getPosts_ReturnsList() throws Exception {
-        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get("/posts")).andReturn();
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get("/api/posts")).andReturn();
 
         assertEquals(HttpStatus.OK.value(), result.getResponse().getStatus());
         String content = result.getResponse().getContentAsString();
@@ -31,7 +31,7 @@ class PostsControllerTest extends AbstractControllerTest {
 
     @Test
     void getPostById_ReturnsPost() throws Exception {
-        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get("/posts/3")).andReturn();
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get("/api/posts/3")).andReturn();
 
         assertEquals(HttpStatus.OK.value(), result.getResponse().getStatus());
         String content = result.getResponse().getContentAsString();
@@ -41,13 +41,13 @@ class PostsControllerTest extends AbstractControllerTest {
 
     @Test
     void getPostById_NoSuchId_ReturnsNotFound() throws Exception {
-        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get("/posts/333")).andReturn();
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get("/api/posts/333")).andReturn();
         assertEquals(HttpStatus.NOT_FOUND.value(), result.getResponse().getStatus());
     }
 
     @Test
     void getPostById_WrongPath_ReturnsBadRequest() throws Exception {
-        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get("/posts/aaa")).andReturn();
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get("/api/posts/aaa")).andReturn();
         assertEquals(HttpStatus.BAD_REQUEST.value(), result.getResponse().getStatus());
     }
 
@@ -59,7 +59,7 @@ class PostsControllerTest extends AbstractControllerTest {
         post.setBody("Test body");
 
         String inputJson = mapToJson(post);
-        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post("/posts")
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post("/api/posts")
                 .contentType(MediaType.APPLICATION_JSON_VALUE).content(inputJson)).andReturn();
 
         assertEquals(HttpStatus.CREATED.value(), result.getResponse().getStatus());
@@ -77,11 +77,11 @@ class PostsControllerTest extends AbstractControllerTest {
         post.setBody("Test body");
 
         String inputJson = mapToJson(post);
-        MvcResult result1 = mockMvc.perform(MockMvcRequestBuilders.post("/posts")
+        MvcResult result1 = mockMvc.perform(MockMvcRequestBuilders.post("/api/posts")
                 .contentType(MediaType.APPLICATION_JSON_VALUE).content(inputJson)).andReturn();
 
         assertEquals(HttpStatus.CREATED.value(), result1.getResponse().getStatus());
-        MvcResult result2 = mockMvc.perform(MockMvcRequestBuilders.get("/posts/101")).andReturn();
+        MvcResult result2 = mockMvc.perform(MockMvcRequestBuilders.get("/api/posts/101")).andReturn();
         PostDTO content = mapFromJson(result2.getResponse().getContentAsString(), PostDTO.class);
 
         assertEquals(HttpStatus.OK.value(), result2.getResponse().getStatus());
@@ -89,7 +89,7 @@ class PostsControllerTest extends AbstractControllerTest {
         assertEquals("Test title", content.getTitle());
         assertEquals("Test body", content.getBody());
 
-        mockMvc.perform(MockMvcRequestBuilders.delete("/posts/101")).andExpect(MockMvcResultMatchers.status().isOk());
+        mockMvc.perform(MockMvcRequestBuilders.delete("/api/posts/101")).andExpect(MockMvcResultMatchers.status().isOk());
     }
 
     @Test
@@ -100,7 +100,7 @@ class PostsControllerTest extends AbstractControllerTest {
         post.setBody("Test body");
 
         String inputJson = mapToJson(post);
-        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.put("/posts/3")
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.put("/api/posts/3")
                 .contentType(MediaType.APPLICATION_JSON_VALUE).content(inputJson)).andReturn();
 
         assertEquals(HttpStatus.OK.value(), result.getResponse().getStatus());
@@ -112,7 +112,7 @@ class PostsControllerTest extends AbstractControllerTest {
 
     @Test
     void deletePost_ReturnsOk() throws Exception {
-        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.delete("/posts/3"))
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.delete("/api/posts/3"))
                 .andReturn();
 
         assertEquals(HttpStatus.OK.value(), result.getResponse().getStatus());

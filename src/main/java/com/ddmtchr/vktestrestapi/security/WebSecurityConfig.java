@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
@@ -68,10 +69,20 @@ public class WebSecurityConfig {
                         .accessDeniedHandler(accessDeniedHandlerJwt))
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth ->
-                        auth.requestMatchers("/posts/**").authenticated()
-                                .requestMatchers("/users/**").authenticated()
-                                .requestMatchers("/albums/**").authenticated()
-                                .requestMatchers("/auth/**").permitAll()
+                        auth.requestMatchers(HttpMethod.GET, "/api/posts/**").hasAnyRole("ADMIN", "POSTS", "POSTS_VIEWER")
+                                .requestMatchers(HttpMethod.POST, "/api/posts/**").hasAnyRole("ADMIN", "POSTS", "POSTS_EDITOR")
+                                .requestMatchers(HttpMethod.PUT, "/api/posts/**").hasAnyRole("ADMIN", "POSTS", "POSTS_EDITOR")
+                                .requestMatchers(HttpMethod.DELETE, "/api/posts/**").hasAnyRole("ADMIN", "POSTS", "POSTS_EDITOR")
+                                .requestMatchers(HttpMethod.GET, "/api/users/**").hasAnyRole("ADMIN", "USERS", "USERS_VIEWER")
+                                .requestMatchers(HttpMethod.POST, "/api/users/**").hasAnyRole("ADMIN", "USERS", "USERS_EDITOR")
+                                .requestMatchers(HttpMethod.PUT, "/api/users/**").hasAnyRole("ADMIN", "USERS", "USERS_EDITOR")
+                                .requestMatchers(HttpMethod.DELETE, "/api/users/**").hasAnyRole("ADMIN", "USERS", "USERS_EDITOR")
+                                .requestMatchers(HttpMethod.GET, "/api/albums/**").hasAnyRole("ADMIN", "ALBUMS", "ALBUMS_VIEWER")
+                                .requestMatchers(HttpMethod.POST, "/api/albums/**").hasAnyRole("ADMIN", "ALBUMS", "ALBUMS_EDITOR")
+                                .requestMatchers(HttpMethod.PUT, "/api/albums/**").hasAnyRole("ADMIN", "ALBUMS", "ALBUMS_EDITOR")
+                                .requestMatchers(HttpMethod.DELETE, "/api/albums/**").hasAnyRole("ADMIN", "ALBUMS", "ALBUMS_EDITOR")
+                                .requestMatchers("/api/auth/**").permitAll()
+                                .requestMatchers("/ws/**").hasAnyRole("ADMIN", "WEBSOCKET")
                                 .anyRequest().authenticated()
                 );
 

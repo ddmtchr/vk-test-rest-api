@@ -1,9 +1,11 @@
 package com.ddmtchr.vktestrestapi.controllers;
 
+import com.ddmtchr.vktestrestapi.security.jwt.JwtUtils;
 import com.ddmtchr.vktestrestapi.services.AuditService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
@@ -15,6 +17,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
+import org.springframework.web.socket.WebSocketSession;
 
 import java.time.LocalDateTime;
 import java.util.Objects;
@@ -24,11 +27,15 @@ import java.util.Objects;
 @RequiredArgsConstructor
 public class AuditAspect {
     private final AuditService auditService;
+    private final JwtUtils jwtUtils;
 
     @Pointcut("execution(* com.ddmtchr.vktestrestapi.controllers.PostsController.*(..)) || " +
             "execution(* com.ddmtchr.vktestrestapi.controllers.UsersController.*(..)) || " +
             "execution(* com.ddmtchr.vktestrestapi.controllers.AlbumsController.*(..))")
     private void controllerMethodAuthorized() {}
+
+    @Pointcut("execution(* com.ddmtchr.vktestrestapi.websocket.ClientEchoWebSocketHandler.afterConnectionEstablished(..))")
+    private void webSocketHandshake() {}
 
     @Pointcut("execution(* com.ddmtchr.vktestrestapi.security.jwt.AccessDeniedHandlerJwt.handle(..))")
     private void accessDeniedHandlerMethods() {}
@@ -50,6 +57,14 @@ public class AuditAspect {
 
             auditService.saveLog(LocalDateTime.now(), username, requestMethod, requestUrl, responseStatus, true);
         }
+    }
+
+    @After("webSocketHandshake()")
+    public void afterWebSocketHandshake(JoinPoint joinPoint) {
+        WebSocketSession session = (WebSocketSession) joinPoint.getArgs()[0];
+        String jwt = jwtUtils.parseJwt(session);
+        auditService.saveLog(LocalDateTime.now(), jwtUtils.getUserNameFromJwtToken(jwt), "GET",
+                "/ws", 101, true);
     }
 
     @After("accessDeniedHandlerMethods()")
