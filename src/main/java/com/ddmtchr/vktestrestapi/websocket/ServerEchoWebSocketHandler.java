@@ -9,14 +9,11 @@ public class ServerEchoWebSocketHandler implements WebSocketHandler {
 
     @Override
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {
-        System.out.println("connected backend-echo");
         Sessions.serverSession = session;
     }
 
     @Override
     public void handleMessage(WebSocketSession session, WebSocketMessage<?> message) throws Exception {
-        System.out.println("received echo-backend");
-        System.out.println("sent backend-client");
         Sessions.clientSession.sendMessage(message);
     }
 

@@ -1,4 +1,4 @@
-package com.ddmtchr.vktestrestapi.security.services;
+package com.ddmtchr.vktestrestapi.services;
 
 import com.ddmtchr.vktestrestapi.websocket.ServerEchoWebSocketHandler;
 import org.springframework.stereotype.Service;

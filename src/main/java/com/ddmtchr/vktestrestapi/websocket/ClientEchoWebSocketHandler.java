@@ -1,6 +1,6 @@
 package com.ddmtchr.vktestrestapi.websocket;
 
-import com.ddmtchr.vktestrestapi.security.services.EchoWebSocketService;
+import com.ddmtchr.vktestrestapi.services.EchoWebSocketService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.socket.CloseStatus;

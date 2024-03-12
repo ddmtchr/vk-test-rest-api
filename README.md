@@ -13,3 +13,4 @@
 - Inmemory кэш
 - Регистрация и авторизация: `/api/auth/register`, `/api/auth/login`
 - Unit, интеграционные тесты
+- WebSocket echo server endpoint
